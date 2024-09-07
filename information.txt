@@ -1,0 +1,1 @@
+1) for tailwind built-in components go to daisy.ui website and install it
