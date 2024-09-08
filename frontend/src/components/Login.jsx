@@ -1,6 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Login() {
   const {
@@ -9,14 +11,35 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate(); // Initialize useNavigate
-
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    // console.log(data);
     // Simulate form submission, e.g., send data to an API
     // If login is successful, redirect to the home page
     // Assuming successful login for now
-    navigate("/"); // Redirect to the home page
+
+    const userInfo = {
+      email: data.email,
+      password: data.password,
+    };
+
+    await axios
+      .post("http://localhost:4001/user/login", userInfo)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          toast.success("Loggedin Successfully");
+          document.getElementById("my_modal_3").close();
+          setTimeout(() => {
+            window.location.reload();
+            localStorage.setItem("User", JSON.stringify(res.data.user));
+          }, 1000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error " + err.response.data.message);
+        setTimeout(() => {}, 2000);
+      });
   };
 
   return (
@@ -26,7 +49,7 @@ function Login() {
           {/* Close button */}
           <Link
             to="/"
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 dark:text-black "
             onClick={() => document.getElementById("my_modal_3").close()}
           >
             ✕
@@ -35,7 +58,7 @@ function Login() {
           <h3 className="font-bold text-lg">Login</h3>
 
           {/* Email field */}
-          <div className="mt-3 space-y-2">
+          <div className="mt-3 space-y-2 dark:text-black ">
             <label htmlFor="email" className="block">
               Email
             </label>
@@ -59,7 +82,7 @@ function Login() {
           </div>
 
           {/* Password field */}
-          <div className="mt-6 space-y-2">
+          <div className="mt-6 space-y-2 dark:text-black ">
             <label htmlFor="password" className="block">
               Password
             </label>
@@ -84,7 +107,7 @@ function Login() {
             >
               Login
             </button>
-            <p>
+            <p className="dark:text-black ">
               Not registered?{" "}
               <Link
                 to="/signup"

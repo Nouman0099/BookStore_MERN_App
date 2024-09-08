@@ -1,1 +1,11 @@
 1) for tailwind built-in components go to daisy.ui website and install it
+
+2) backend_funda => firstly we make schema through mongoose and then initialize it to modal with a key, secondaly we make controller and import modal in it and then we make functions like getData() to get the data, thirdly we make routes require from express.router and import controller to get controller data about specific route.
+
+3) backend_signup_funda => firstly we check user is exit or not using findOne() method if user exit send error, if user does not exit send body schema details to backend using (created = new User({name,email,password}) ) and then save the user using created.save() 
+
+4) backend_login_funda => firstly we check user details match or not using findOne() and compare(password) method if user not match send error, if user match send message successful and body schema details as responce
+
+5) we use react-hot-toast library to show the message on pop-up
+
+6) git remote -v => gto check which repository initialize
